@@ -15,7 +15,6 @@
 
 #import "NSString+InflectionSupport.h"
 
-#import <RestKit/RKErrorMessage.h>
 #import "SREntryProtocol.h"
 #import "SRRouter.h"
 #import "SRHelpers.h"

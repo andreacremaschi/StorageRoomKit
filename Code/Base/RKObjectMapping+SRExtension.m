@@ -46,7 +46,7 @@
     va_start(args, relationshipName);
     
     for (NSString* keyPath = relationshipName; keyPath != nil; keyPath = va_arg(args, NSString*)) {
-        [self addAttributeMappingsFromDictionary: @{ keyPath : [SREmbedded objectMapping] }];
+        [self addRelationshipMappingWithSourceKeyPath:keyPath  mapping: [SREmbedded objectMapping] ];
     }
     
     va_end(args);

@@ -18,7 +18,6 @@
 #import <RestKit/RKErrorMessage.h>
 #import "SREntryProtocol.h"
 #import "SRRouter.h"
-#import "SRObjectMappingProvider.h"
 #import "SRHelpers.h"
 
 
@@ -26,6 +25,10 @@
 
 static NSString *metaPrefix = @"m_";
 static NSString *defaultHost = @"api.storageroomapp.com";
+
+@interface SRObjectManager ()
+@property (copy) NSString *accountId;
+@end
 
 @implementation SRObjectManager
 
@@ -173,34 +176,47 @@ static NSString *defaultHost = @"api.storageroomapp.com";
     RKLogDebug(@"Creating new RKObjectManager for account: %@ token: %@ ssl: %d host: %@", anAccountId, anAuthenticationToken, ssl, aHost);
     
     NSString *protocol = ssl ? @"https" : @"http";
-    NSString *baseUrl = [NSString stringWithFormat:@"%@://%@%@", protocol, aHost, SRAccountPath(anAccountId)];
+    NSString *baseUrl = [NSString stringWithFormat:@"%@://%@", protocol, aHost];
     
-    if ((self = [super initWithBaseURL:[NSURL URLWithString:baseUrl]])) {
-        self.serializationMIMEType = RKMIMETypeJSON; 
-        self.acceptMIMEType = RKMIMETypeJSON;
+    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
+    if (!client) return nil;
+    
+    if ((self = [super initWithHTTPClient: client])) {
         
-        self.client.username = anAuthenticationToken;
-        self.client.password = @"";
-        self.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
-        [self.client setValue:[[self class] metaPrefix] forHTTPHeaderField:@"X-Meta-Prefix"]; // use m_ as meta prefix and not @, as this causes problems with KVC
-        [self.client setValue:[[self class] userAgent] forHTTPHeaderField:@"User-Agent"];
+        self.requestSerializationMIMEType = RKMIMETypeJSON;
+        [self setAcceptHeaderWithMIMEType: RKMIMETypeJSON];
         
-        self.router = [[[SRRouter alloc] init] autorelease];
-        self.mappingProvider = [[[SRObjectMappingProvider alloc] init] autorelease];
+        [client setAuthorizationHeaderWithUsername:anAuthenticationToken password:@""];
+        //self.client.authenticationType = RKRequestAuthenticationTypeHTTPBasic;
+        [client setDefaultHeader:@"X-Meta-Prefix" value:[[self class] metaPrefix]]; // use m_ as meta prefix and not @, as this causes problems with KVC
+        [client setDefaultHeader:@"User-Agent" value:[[self class] userAgent]];
+        
+        self.accountId = anAccountId;
         
         [self loadMappableObjects];
         [self loadMappableEntryClassesWithCoreData:NO];
         
-        RKObjectMapping *errorMapping = [RKObjectMapping mappingForClass:[RKErrorMessage class]];
-        [errorMapping mapKeyPath:@"message" toAttribute:@"errorMessage"];    
-        [self.mappingProvider setMapping:errorMapping forKeyPath:@"error"];
-        [self.mappingProvider setMapping:errorMapping forKeyPath:@"errors"];
+        RKObjectMapping *errorMapping = [RKObjectMapping requestMapping];
+        [errorMapping addAttributeMappingsFromDictionary:
+            @{@"message" :@"errorMessage"}];
+
+        [self addResponseDescriptor: [RKResponseDescriptor responseDescriptorWithMapping: errorMapping
+                                                                             pathPattern: nil
+                                                                                 keyPath: @"error"
+                                                                             statusCodes: RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]];
+
+        [self addResponseDescriptor: [RKResponseDescriptor responseDescriptorWithMapping: errorMapping
+                                                                             pathPattern: nil
+                                                                                 keyPath: @"errors"
+                                                                             statusCodes: RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]];
+
     }
     
     return self;
 }
 
 - (void)dealloc {
+    self.accountId = nil;
     [super dealloc];
 }
 
@@ -234,24 +250,43 @@ static NSString *defaultHost = @"api.storageroomapp.com";
         NSString *keyPath = [class objectKeyPath];
         
         if (keyPath) {
-            RKObjectMappingDefinition *objectMapping = [class objectMapping];  
             
-            RKLogDebug(@"Adding mapping: %@ with keyPath: %@ to mappingProvider", objectMapping, keyPath);                
-            [self.mappingProvider setMapping:objectMapping forKeyPath:keyPath]; 
             
+            RKObjectMapping *objectMapping = [class objectMapping];
+
+            RKLogDebug(@"Adding mapping: %@ with keyPath: %@ to mappingProvider", objectMapping, keyPath);
+            
+            [self addResponseDescriptor: [RKResponseDescriptor responseDescriptorWithMapping: objectMapping
+                                                                                               pathPattern:nil
+                                                                                                keyPath:keyPath
+                                                                                               statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]];
+           
             RKObjectMapping *inverseMapping = [class inverseObjectMapping];
             
             if (inverseMapping) {
-                RKLogDebug(@"Adding reverse mapping: %@ for class: %@", inverseMapping, NSStringFromClass(class));                    
-                [self.mappingProvider setSerializationMapping:inverseMapping forClass:class];
+                RKLogDebug(@"Adding reverse mapping: %@ for class: %@", inverseMapping, NSStringFromClass(class));
+                [self addResponseDescriptor: [RKResponseDescriptor responseDescriptorWithMapping: inverseMapping
+                                                                                     pathPattern: nil
+                                                                                         keyPath: keyPath
+                                                                                     statusCodes: RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]];
             }
         }
     }
 }
 
-- (void)setObjectStore:(RKManagedObjectStore *)anObjectStore {
-    [super setObjectStore:anObjectStore];
+- (void)setManagedObjectStore:(RKManagedObjectStore *)anObjectStore {
+    [super setManagedObjectStore:anObjectStore];
     [self loadMappableEntryClassesWithCoreData:YES];
+}
+
+
+#pragma mark - RKObjectManager overrides
+-(NSMutableURLRequest *)requestWithObject:(id)object method:(RKRequestMethod)method path:(NSString *)path parameters:(NSDictionary *)parameters
+{
+
+    NSString *accountPath = path ? [NSString stringWithFormat:@"%@%@", SRAccountPath(self.accountId), path] : nil;
+    return [super requestWithObject:object method:method path:accountPath parameters:parameters];
+
 }
 
 @end

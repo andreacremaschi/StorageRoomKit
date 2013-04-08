@@ -6,19 +6,18 @@
 //  Copyright 2011 Thriventures. All rights reserved.
 //
 
-@class RKDynamicObjectMapping;
-
+@class RKDynamicMapping;
 @interface SRObject (SRPrivate)
 
 + (BOOL)isCustomMapping;
 + (RKObjectMapping *)concreteMapping;
-+ (RKDynamicObjectMapping *)dynamicMapping;
-+ (RKObjectMappingDefinition *)customMapping;
++ (RKDynamicMapping *)dynamicMapping;
++ (RKObjectMapping *)customMapping;
 + (BOOL)hasInverseObjectMapping;
 
 + (void)addAttributeWithName:(NSString *)aName toObjectMapping:(RKObjectMapping *)anObjectMapping;
 + (void)addMetaDataWithName:(NSString *)aName toObjectMapping:(RKObjectMapping *)anObjectMapping;
-+ (void)addRelationshipWithName:(NSString *)aName relationshipMapping:(RKObjectMappingDefinition *)aRelationshipMapping toObjectMapping:(RKObjectMapping *)anObjectMapping;
++ (void)addRelationshipWithName:(NSString *)aName relationshipMapping:(RKMapping *)aRelationshipMapping toObjectMapping:(RKObjectMapping *)anObjectMapping;
 
 + (void)addAttributes:(NSArray *)anArray toObjectMapping:(RKObjectMapping *)anObjectMapping;
 + (void)addMetaData:(NSArray *)anArray toObjectMapping:(RKObjectMapping *)anObjectMapping;

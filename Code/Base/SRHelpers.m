@@ -55,7 +55,9 @@ NSString *SRAbsoluteUrlToRelativePath(NSString *absoluteURL) {
 
 NSString *SRPathAppendQueryParams(NSString *resourcePath, NSDictionary *queryParams) {
 	if ([queryParams count] > 0) {
-        NSURL *url = [[RKClient sharedClient].baseURL URLByAppendingResourcePath:resourcePath];
+        NSURL *baseURL = [SRObjectManager sharedManager].baseURL;
+        NSURL *url = [baseURL URLByAppendingPathComponent: resourcePath];
+        //NSURL *url =  baseURL URLByAppendingPathComponent: URLByAppendingResourcePath:resourcePath];
         NSString *separator = [url query] ? @"&" : @"?";
         
 		return [NSString stringWithFormat:@"%@%@%@", resourcePath, separator, [queryParams URLEncodedString]];

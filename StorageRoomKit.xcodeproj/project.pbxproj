@@ -43,8 +43,6 @@
 		5339DBF214E50ADC003BED86 /* SREntry+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9614E50ADC003BED86 /* SREntry+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5339DBF314E50ADC003BED86 /* SREntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9714E50ADC003BED86 /* SREntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5339DBF414E50ADC003BED86 /* SREntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5339DB9814E50ADC003BED86 /* SREntry.m */; };
-		5339DBF514E50ADC003BED86 /* SREntryMappingDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9914E50ADC003BED86 /* SREntryMappingDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5339DBF614E50ADC003BED86 /* SREntryMappingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5339DB9A14E50ADC003BED86 /* SREntryMappingDelegate.m */; };
 		5339DBF714E50ADC003BED86 /* SREntryProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9B14E50ADC003BED86 /* SREntryProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5339DBF814E50ADC003BED86 /* SRField.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9C14E50ADC003BED86 /* SRField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5339DBF914E50ADC003BED86 /* SRField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5339DB9D14E50ADC003BED86 /* SRField.m */; };
@@ -208,8 +206,6 @@
 		5361DB6214E512B800F3C9D5 /* SREntry+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9614E50ADC003BED86 /* SREntry+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5361DB6314E512B800F3C9D5 /* SREntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9714E50ADC003BED86 /* SREntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5361DB6414E512B800F3C9D5 /* SREntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5339DB9814E50ADC003BED86 /* SREntry.m */; };
-		5361DB6514E512B800F3C9D5 /* SREntryMappingDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9914E50ADC003BED86 /* SREntryMappingDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5361DB6614E512B800F3C9D5 /* SREntryMappingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5339DB9A14E50ADC003BED86 /* SREntryMappingDelegate.m */; };
 		5361DB6714E512B800F3C9D5 /* SREntryProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9B14E50ADC003BED86 /* SREntryProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5361DB6814E512B800F3C9D5 /* SRField.h in Headers */ = {isa = PBXBuildFile; fileRef = 5339DB9C14E50ADC003BED86 /* SRField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5361DB6914E512B800F3C9D5 /* SRField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5339DB9D14E50ADC003BED86 /* SRField.m */; };
@@ -366,13 +362,6 @@
 			remoteGlobalIDString = 53DBF98514E5091200BFA012;
 			remoteInfo = StorageRoomKit;
 		};
-		53F4BD4C1610ABB500EF1309 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5339DC3014E50B0D003BED86 /* RestKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 259C301615128079003066A2;
-			remoteInfo = RestKitResources;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -411,8 +400,6 @@
 		5339DB9614E50ADC003BED86 /* SREntry+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SREntry+Private.h"; sourceTree = "<group>"; };
 		5339DB9714E50ADC003BED86 /* SREntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SREntry.h; sourceTree = "<group>"; };
 		5339DB9814E50ADC003BED86 /* SREntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SREntry.m; sourceTree = "<group>"; };
-		5339DB9914E50ADC003BED86 /* SREntryMappingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SREntryMappingDelegate.h; sourceTree = "<group>"; };
-		5339DB9A14E50ADC003BED86 /* SREntryMappingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SREntryMappingDelegate.m; sourceTree = "<group>"; };
 		5339DB9B14E50ADC003BED86 /* SREntryProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SREntryProtocol.h; sourceTree = "<group>"; };
 		5339DB9C14E50ADC003BED86 /* SRField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRField.h; sourceTree = "<group>"; };
 		5339DB9D14E50ADC003BED86 /* SRField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRField.m; sourceTree = "<group>"; };
@@ -756,7 +743,6 @@
 				5339DC3A14E50B0D003BED86 /* RestKitTests.octest */,
 				5339DC3C14E50B0D003BED86 /* RestKit.framework */,
 				5339DC3E14E50B0D003BED86 /* RestKitFrameworkTests.octest */,
-				53F4BD4D1610ABB500EF1309 /* RestKitResources.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1082,8 +1068,6 @@
 		53FF70BC14E52AE000B0770E /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				5339DB9914E50ADC003BED86 /* SREntryMappingDelegate.h */,
-				5339DB9A14E50ADC003BED86 /* SREntryMappingDelegate.m */,
 				5339DBC314E50ADC003BED86 /* SRResource.h */,
 				5339DBC414E50ADC003BED86 /* SRResource.m */,
 				53FF70BD14E52AEA00B0770E /* Resources */,
@@ -1362,7 +1346,6 @@
 				5361DB5E14E512B800F3C9D5 /* SRDeletedEntry.h in Headers */,
 				5361DB6014E512B800F3C9D5 /* SREmbedded.h in Headers */,
 				5361DB6314E512B800F3C9D5 /* SREntry.h in Headers */,
-				5361DB6514E512B800F3C9D5 /* SREntryMappingDelegate.h in Headers */,
 				5361DB6714E512B800F3C9D5 /* SREntryProtocol.h in Headers */,
 				5361DB6814E512B800F3C9D5 /* SRField.h in Headers */,
 				5361DB6A14E512B800F3C9D5 /* SRFile.h in Headers */,
@@ -1416,7 +1399,6 @@
 				5339DBEE14E50ADC003BED86 /* SRDeletedEntry.h in Headers */,
 				5339DBF014E50ADC003BED86 /* SREmbedded.h in Headers */,
 				5339DBF314E50ADC003BED86 /* SREntry.h in Headers */,
-				5339DBF514E50ADC003BED86 /* SREntryMappingDelegate.h in Headers */,
 				5339DBF714E50ADC003BED86 /* SREntryProtocol.h in Headers */,
 				5339DBF814E50ADC003BED86 /* SRField.h in Headers */,
 				5339DBFA14E50ADC003BED86 /* SRFile.h in Headers */,
@@ -1575,13 +1557,6 @@
 			remoteRef = 5339DC3D14E50B0D003BED86 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		53F4BD4D1610ABB500EF1309 /* RestKitResources.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RestKitResources.bundle;
-			remoteRef = 53F4BD4C1610ABB500EF1309 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1694,7 +1669,6 @@
 				5361DB5F14E512B800F3C9D5 /* SRDeletedEntry.m in Sources */,
 				5361DB6114E512B800F3C9D5 /* SREmbedded.m in Sources */,
 				5361DB6414E512B800F3C9D5 /* SREntry.m in Sources */,
-				5361DB6614E512B800F3C9D5 /* SREntryMappingDelegate.m in Sources */,
 				5361DB6914E512B800F3C9D5 /* SRField.m in Sources */,
 				5361DB6B14E512B800F3C9D5 /* SRFile.m in Sources */,
 				5361DB6D14E512B800F3C9D5 /* SRFileField.m in Sources */,
@@ -1741,7 +1715,6 @@
 				5339DBEF14E50ADC003BED86 /* SRDeletedEntry.m in Sources */,
 				5339DBF114E50ADC003BED86 /* SREmbedded.m in Sources */,
 				5339DBF414E50ADC003BED86 /* SREntry.m in Sources */,
-				5339DBF614E50ADC003BED86 /* SREntryMappingDelegate.m in Sources */,
 				5339DBF914E50ADC003BED86 /* SRField.m in Sources */,
 				5339DBFB14E50ADC003BED86 /* SRFile.m in Sources */,
 				5339DBFD14E50ADC003BED86 /* SRFileField.m in Sources */,

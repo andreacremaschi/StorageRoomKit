@@ -6,7 +6,7 @@
 //  Copyright 2011 Thriventures. All rights reserved.
 //
 
-@class RKObjectMappingDefinition;
+@class RKMapping;
 @class RKObjectMapping;
 
 /**
@@ -17,7 +17,12 @@
 /**
  * The object mapping for the class.
  */
-+ (RKObjectMappingDefinition *)objectMapping;
++ (RKObjectMapping *)objectMapping;
+
+/**
+ * The root key path (was in objectMapping in RestKit 0.10.3).
+ */
++ (NSString *)rootKeyPath;
 
 /**
  * The inverse object mapping used for serialization.

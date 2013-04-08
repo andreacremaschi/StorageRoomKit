@@ -9,12 +9,15 @@
 #import "SRObject.h"
 
 #import "SRObject+Private.h"
-#import "SREntryMappingDelegate.h"
+
 #import "SRModel.h"
 #import "SREntry.h"
 #import "SREmbedded.h"
 #import "SRHelpers.h"
 
+#import "SRObjectManager.h"
+
+#import <RestKit/RestKit.h>
 
 
 @implementation SRObject
@@ -24,7 +27,7 @@
 #pragma mark - 
 #pragma mark SRMappable Protocol
 
-+ (RKObjectMappingDefinition *)objectMapping { 
++ (RKMapping *)objectMapping {
     if ([self isCustomMapping]) {
         return [self customMapping];
     }
@@ -34,7 +37,7 @@
 }
 
 + (RKObjectMapping *)inverseObjectMapping {
-    RKObjectMappingDefinition *mapping = [self objectMapping];
+    RKMapping *mapping = [self objectMapping];
     
     if ([self hasInverseObjectMapping] && [mapping isKindOfClass:[RKObjectMapping class]]) {
         return [(RKObjectMapping *)mapping inverseMapping];
@@ -107,36 +110,37 @@
 #pragma mark Mapping Helper Methods
 
 
-+ (RKObjectMappingDefinition *)customMapping {
-    static SREntryMappingDelegate *delegate = nil;
++ (RKMapping *)customMapping {
     
-    if (!delegate) {
-        delegate = [[SREntryMappingDelegate alloc] init];
-    }
-    
-    RKDynamicObjectMapping *mapping = (RKDynamicObjectMapping *)[self dynamicMapping];
-    mapping.delegate = delegate;
+    RKDynamicMapping *mapping = (RKDynamicMapping *)[self dynamicMapping];
+    [mapping setObjectMappingForRepresentationBlock:^RKObjectMapping *(id representation) {
+        NSDictionary *dict = representation;
+        id type = [dict objectForKey: SRTypeAttribute()];
+        return [[SRObjectManager entryObjectMappings] objectForKey: type];
+    }];
     
     return mapping;
 }
 
-+ (RKDynamicObjectMapping *)dynamicMapping {
-    RKDynamicObjectMapping *dynamicMapping = [RKDynamicObjectMapping dynamicMapping];
++ (RKDynamicMapping *)dynamicMapping {
+    RKDynamicMapping *dynamicMapping = [[RKDynamicMapping new] autorelease];
     NSString *keyPath = SRTypeAttribute();
     
     RKLogDebug(@"Creating dynamic mapping for %@", [self objectType]);
     
     for (Class klass in SRSubclasses(self)) {
-        RKObjectMappingDefinition *mapping = [klass objectMapping];
+        RKMapping *mapping = [klass objectMapping];
         
         if ([mapping isKindOfClass:[RKObjectMapping class]]) {
             RKObjectMapping *objectMapping = (RKObjectMapping *)mapping;
-            [dynamicMapping setObjectMapping:objectMapping whenValueOfKeyPath:keyPath isEqualTo:[klass objectType]];
+            [dynamicMapping addMatcher:[RKObjectMappingMatcher matcherWithKeyPath:keyPath expectedValue:[klass objectType] objectMapping:objectMapping]];
             RKLogTrace(@"Added to dynamic mapping: %@", [klass objectType]);
         }
+    
     }
     
     return dynamicMapping;
+    
 }
 
 + (RKObjectMapping *)concreteMapping {
@@ -175,19 +179,23 @@
 }
 
 + (void)addAttributeWithName:(NSString *)aName toObjectMapping:(RKObjectMapping *)anObjectMapping {
-    RKObjectAttributeMapping *attributeMapping = [RKObjectAttributeMapping mappingFromKeyPath:aName toKeyPath:SRIdentifierToObjectiveC(aName)];
-    [anObjectMapping addAttributeMapping:attributeMapping];
+    [anObjectMapping addAttributeMappingsFromDictionary:@{ aName : SRIdentifierToObjectiveC(aName)}];
 }
 
 + (void)addMetaDataWithName:(NSString *)aName toObjectMapping:(RKObjectMapping *)anObjectMapping {
+
     NSString *metaKey = SRMeta(aName);
-    RKObjectAttributeMapping *attributeMapping = [RKObjectAttributeMapping mappingFromKeyPath:metaKey toKeyPath:SRIdentifierToObjectiveC(metaKey)];
-    [anObjectMapping addAttributeMapping:attributeMapping];
+    [anObjectMapping addAttributeMappingsFromDictionary:@{ metaKey : SRIdentifierToObjectiveC(metaKey)}];
 }
 
-+ (void)addRelationshipWithName:(NSString *)aName relationshipMapping:(RKObjectMappingDefinition *)aRelationshipMapping toObjectMapping:(RKObjectMapping *)anObjectMapping {
-    RKObjectRelationshipMapping *relationshipMapping = [RKObjectRelationshipMapping mappingFromKeyPath:aName toKeyPath:SRIdentifierToObjectiveC(aName) withMapping:aRelationshipMapping];
-    [anObjectMapping addAttributeMapping:relationshipMapping];
++ (void)addRelationshipWithName:(NSString *)aName relationshipMapping:(RKMapping *)aRelationshipMapping toObjectMapping:(RKObjectMapping *)anObjectMapping {
+
+    RKRelationshipMapping *userRelationship =
+    [RKRelationshipMapping relationshipMappingFromKeyPath:aName
+                                                toKeyPath:SRIdentifierToObjectiveC(aName)
+                                              withMapping:aRelationshipMapping];
+    [anObjectMapping addPropertyMapping:userRelationship];
+    
 }
 
 #pragma mark -

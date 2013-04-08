@@ -17,6 +17,10 @@
 @implementation SRObjectMappingProvider
 
 - (RKObjectMapping *)serializationMappingForClass:(Class)objectClass {
+    
+    // TODO: refactor this code. Now rootKeyPath is a property of RKRequestDescriptor, not of RKObjectMapping.
+    // The collection of RKRequestDescriptor is mantained by RKObjectManager instance.
+    
     if ([SRObjectManager isMappableEntryClass:objectClass]) {
         RKLogDebug(@"Searching serialization mapping for %@", NSStringFromClass(objectClass));
         
@@ -24,7 +28,7 @@
             RKObjectMapping *objectMapping = [[SRObjectManager entryObjectMappings] objectForKey:type];
             if ([objectMapping objectClass] == objectClass) {
                 RKObjectMapping *inverseMapping = [objectMapping inverseMapping];
-                inverseMapping.rootKeyPath = [SREntry objectKeyPath];
+                //inverseMapping.rootKeyPath = [SREntry objectKeyPath];
                 
                 return inverseMapping;
             }
@@ -33,14 +37,16 @@
         return nil;
     }
     else {
+        
         RKObjectMapping *mapping = [super serializationMappingForClass:objectClass];
 
         if ([objectClass isSubclassOfClass:[SRObject class]]) {
-            mapping.rootKeyPath = [objectClass objectKeyPath];            
+            //mapping.rootKeyPath = [objectClass objectKeyPath];
         }
         
         return mapping;
     }
+    return nil;
 }
 
 @end

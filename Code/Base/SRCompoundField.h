@@ -15,6 +15,6 @@
     
 }
 
-- (RKObjectMappingDefinition *)relationshipMapping;
+- (RKMapping *)relationshipMapping;
 
 @end

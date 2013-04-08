@@ -11,6 +11,6 @@
 /**
  * An extended version of RKObjectRouter that contains custom methods to support the StorageRoom API.
  */
-@interface SRRouter : RKObjectRouter // <RKRouter>
+@interface SRRouter : RKRouter // <RKRouter>
 
 @end

@@ -31,9 +31,9 @@
 #pragma mark -
 #pragma mark RKRouter Protocol
 
-- (NSString *)resourcePathForObject:(NSObject *)anObject method:(RKRequestMethod)aMethod {
+- (NSURL *)URLForObject:(NSObject *)anObject method:(RKRequestMethod)aMethod {
     if ([anObject isKindOfClass:[SRCollection class]]) {        
-        return [self resourcePathForObject:anObject prefix:SRCollectionsPath() method:aMethod];
+        return [NSURL URLWithString: [self resourcePathForObject:anObject prefix:SRCollectionsPath() method:aMethod] ];
     }
     else if ([anObject conformsToProtocol:NSProtocolFromString(@"SREntry")]) {
         NSAssert([anObject respondsToSelector:@selector(mUrl)], @"Object must respond to mUrl when generating URLs");
@@ -43,10 +43,10 @@
         
         NSString *collectionId = SRIdFromUrl([entry mCollectionUrl]);
         
-        return [self resourcePathForObject:anObject prefix:SRCollectionEntriesPath(collectionId) method:aMethod];        
+        return [NSURL URLWithString: [self resourcePathForObject:anObject prefix:SRCollectionEntriesPath(collectionId) method:aMethod]];
     }
     else {
-        return [super resourcePathForObject:anObject method:aMethod];
+        return [super URLForObject:anObject method:aMethod];
     }
 }
 

@@ -22,7 +22,7 @@
     va_start(args, attributeKey);
     
     for (NSString* keyPath = attributeKey; keyPath != nil; keyPath = va_arg(args, NSString*)) {
-        [self mapKeyPath:keyPath toAttribute:SRIdentifierToObjectiveC(keyPath)];
+        [self addAttributeMappingsFromDictionary: @{ keyPath : SRIdentifierToObjectiveC(keyPath) }];
     }
     
     va_end(args);
@@ -35,7 +35,7 @@
     for (NSString* keyPath = attributeKey; keyPath != nil; keyPath = va_arg(args, NSString*)) {
         NSString *metaKey = SRMeta(keyPath);
         NSString *camelizedKeyPath = SRIdentifierToObjectiveC(metaKey);       
-        [self mapKeyPath:metaKey toAttribute:camelizedKeyPath];
+        [self addAttributeMappingsFromDictionary: @{ metaKey : camelizedKeyPath }];
     }
     
     va_end(args);
@@ -46,7 +46,7 @@
     va_start(args, relationshipName);
     
     for (NSString* keyPath = relationshipName; keyPath != nil; keyPath = va_arg(args, NSString*)) {
-        [self mapRelationship:keyPath withMapping:[SREmbedded objectMapping]];
+        [self addAttributeMappingsFromDictionary: @{ keyPath : [SREmbedded objectMapping] }];
     }
     
     va_end(args);

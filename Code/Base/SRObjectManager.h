@@ -74,7 +74,4 @@
  */
 - (void)loadMappableEntryClassesWithCoreData:(BOOL)withCoreData;
 
-
-
-
 @end

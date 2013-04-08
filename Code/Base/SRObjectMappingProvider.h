@@ -11,6 +11,6 @@
 /**
  * An extended version of RKObjectMappingProvider that contains custom methods to support the StorageRoom API.
  */
-@interface SRObjectMappingProvider : RKObjectMappingProvider
+@interface SRObjectMappingProvider : NSObject //RKObjectMappingProvider
 
 @end

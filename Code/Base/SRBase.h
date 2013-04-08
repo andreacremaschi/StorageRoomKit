@@ -4,7 +4,6 @@
 #import "SRHelpers.h"
 
 #import "SRObjectManager.h"
-#import "SRObjectMappingProvider.h"
 #import "SRRouter.h"
 
 #import "SREntryProtocol.h"

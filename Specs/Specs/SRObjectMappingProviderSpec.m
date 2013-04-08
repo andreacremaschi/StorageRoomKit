@@ -45,7 +45,7 @@ beforeEach(^{
 
 });
 
-describe(@"serializationMappingForClass:", ^{
+/*describe(@"serializationMappingForClass:", ^{
     it(@"should return mapping for Entry class", ^{
         RKObjectMapping *mapping = [objectManager.mappingProvider serializationMappingForClass:[SRArticle class]];
         
@@ -65,6 +65,6 @@ describe(@"serializationMappingForClass:", ^{
         [[attributeMapping.sourceKeyPath should] equal:@"name"];
         [[attributeMapping.destinationKeyPath should] equal:@"name"];
     });
-});
+});*/
 
 SPEC_END

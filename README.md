@@ -15,10 +15,10 @@ Main Features
 * ... and many more handy features that RestKit offers
 
 
-Cocoapods
+CocoaPods
 ------------------------------
 
-You can install StorageRoomKit through Cocoapods:
+You can install StorageRoomKit through CocoaPods:
 
 `pod search 'StorageRoomKit'`
 
@@ -160,7 +160,7 @@ Contributions
 
 Thanks a lot to all contributors.
 
-- @andreacremaschi: Cocoapods support
+- @andreacremaschi: CocoaPods support
 
 License
 ------------------------------
